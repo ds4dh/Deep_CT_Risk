@@ -1,4 +1,5 @@
-# Deep learning-based risk prediction for interventional clinical trials based on protocol design: a retrospective study  
+# Deep learning-based risk prediction for interventional clinical trials based on protocol design: a retrospective study 
+Sohrab Ferdowsi, Julien Knafou, Nikolay Borissov, David Vicente Alvarez, Rahul Mishra, Poorya Amini, Douglas Teodoro
 ## Summary
 ### Background: 
 Clinical trials (CTs) constitute a major cost in the drug development cycle, yet their success rate is estimated to be no more than 14%. Among the many factors related to CT failure, the poor design of the protocol itself is considered a major risk. As an alternative to the manual protocol risk assessment, we aimed to investigate deep learning methods to create risk prediction models for CT success estimation.

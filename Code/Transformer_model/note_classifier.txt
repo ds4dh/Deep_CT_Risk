@@ -1,0 +1,62 @@
+tar czf index_v2.tar.gz /data/collection/ctgov/index/v2/
+tar czf splits_v2.tar.gz /data/collection/ctgov/splits/v2/
+
+tar -xvf /data/user/knafou/Risklick/index_v2.tar.gz
+mkdir index
+mv -v data/collection/ctgov/index/v2/* index/
+find data/collection/ctgov/index/v2/ -type f -print0 | xargs -0 mv -t index/
+rm -r data
+
+tar -xvf /data/user/knafou/Risklick/splits_v2.tar.gz
+mkdir splits
+mv -v data/collection/ctgov/splits/v2/* splits/
+rm -r data
+
+python3 -m venv my_env
+source my_env/bin/activate
+pip install --upgrade pip
+#pip install cloud-tpu-client==0.10 https://storage.googleapis.com/tpu-pytorch/wheels/torch_xla-1.8-cp36-cp36m-linux_x86_64.whl
+pip install torch==1.8
+cd transformers
+pip install --editable ./
+cd
+pip install sentencepiece
+pip install sklearn
+
+
+
+####################
+source my_env/bin/activate
+PROJECT_PATH=/data/user/knafou/Projects
+WD_PATH=$PROJECT_PATH/RiskLick/Risk_classification/v3
+SPAWN_PATH=$WD_PATH/xla_spawn.py
+NEW_SPAWN_PATH=$HOME/xla_spawn.py
+cp $SPAWN_PATH $NEW_SPAWN_PATH
+
+#gcloud compute tpus create tpu --zone=europe-west4-a --network=default --version=pytorch-1.8 --accelerator-type=v3-8 --preemptible
+export TPU_IP_ADDRESS=10.77.111.42
+export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
+export XLA_USE_BF16=0
+
+SCRIPT_PATH=$WD_PATH/classification_multi_inputs_training_tpu_v3t.py
+NEW_SCRIPT_PATH=$HOME/classification_multi_inputs_training_tpu.py
+cp $SCRIPT_PATH $NEW_SCRIPT_PATH
+#rm -r /home/jknafou/models/classifiers_3_levels/run/*
+#rm -r /home/jknafou/models/classifiers_3_levels/bio-roberta-small/checkpoint-*
+#python $NEW_SPAWN_PATH --num_cores 8 $NEW_SCRIPT_PATH
+nohup python $NEW_SPAWN_PATH --num_cores 8 $NEW_SCRIPT_PATH &> training.log &
+tail -f training.log
+
+nohup tensorboard dev upload --logdir /home/jknafou/models/classifiers_3_levels/run/ &> tensorboard.out &
+tail -f tensorboard.out
+
+
+cp $SCRIPT_PATH $NEW_SCRIPT_PATH
+python $NEW_SPAWN_PATH --num_cores 8 $NEW_SCRIPT_PATH
+
+SCRIPT_PATH=$WD_PATH/classification_training_tpu.py
+NEW_SCRIPT_PATH=$HOME/classification_training_tpu.py
+cp $SCRIPT_PATH $NEW_SCRIPT_PATH
+#rm -r /home/jknafou/models/classifiers/run/*
+nohup python $NEW_SPAWN_PATH --num_cores 8 $NEW_SCRIPT_PATH &> training.log &
+tail -f training.log

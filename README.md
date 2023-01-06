@@ -9,3 +9,5 @@ This retrospective study used a dataset composed of 360,497 CT protocols publicl
 The ensemble model achieved an overall area under the receiving operator characteristics curve (AUROC) of 0.8453 (95% CI: 0.8409-0.8495) significantly outperforming the BOW baseline (0.7548 (95% CI: 0.7493-0.7603)), and an AUROC as high as 0.8691 (95% CI: 0.8658-0.8724) for the high risk category. The transformer-based and graph-based models achieved similar performance to the ensemble, with an AUROC of 0.8363 (95% CI: 0.8318-0.8407) and 0.8395 (95% CI: 0.8352-0.8439), respectively. For the condition and phase strata, Hemic and Lymphatic Diseases (AUROC of 0.884 (95% CI: 0.845-0.899)) and Phase I protocols (AUROC of 0.8493 (95% CI: 0.8408-0.8573)) achieved the highest performance, respectively.
 ### Interpretation: 
 We demonstrate the success of deep learning models in predicting CT risk categories from protocols, paving the way for customized risk mitigation strategies for protocol design and eventual reduction in costs and time-to-market for drugs.
+## Examples:
+	

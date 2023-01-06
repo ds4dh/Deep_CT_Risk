@@ -14,4 +14,7 @@ We demonstrate the success of deep learning models in predicting CT risk categor
 
 ----------------
 # Examples: 
-In examples folder, predicted risk labels and potentially risky individual sections and associated risk scores are presented for the two clinical trials. 	
+In "examples" folder, predicted risk labels and potentially risky individual sections and associated risk scores are presented for the two clinical trials.
+* The file "results_NCT00963560.csv" contains the results of the clinical trial with the NCT ID as NCT00963560. The proposed model predicts low risk for various phase-condition combinations, which increases the clinical designer's confidence that the CT protocol is well designed.
+* The file "results_NCT01566552.csv" contains the results of the clinical trial with the NCT ID as NCT01566552. The proposed model predicts high risk for various phase-condition combinations. The interpretability module of the proposed model gives a clear insight to the clinical designer as to which section needs improvement for risk mitigation. In case of clinical trial NCT01566552, result shows that Contacts Locations, Design, and Condition sections need to be redesigned to lower the risk.  
+
